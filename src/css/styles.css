@@ -1,18 +1,196 @@
-/**
-  |============================
-  | include css partials with
-  | default @import url()
-  |============================
-*/
-/* Common styles */
-@import url('./reset.css');
-@import url('./base.css');
-@import url('./container.css');
-@import url('./animations.css');
+.form {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 16px;
+  margin-top: 24px;
+  max-width: 371px;
+}
 
-/* Sections style */
-@import url('./header.css');
-@import url('./vite-promo.css');
-@import url('./badges.css');
-@import url('./back-link.css');
-@import url('./footer.css');
+.form-label {
+  display: block;
+}
+
+.form-input {
+  width: 100%;
+  outline: transparent;
+  border: 1px solid #808080;
+  border-radius: 4px;
+  width: 272px;
+  padding: 8px 16px;
+  background-color: transparent;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: #808080;
+}
+
+.form-input::placeholder {
+  color: #808080;
+}
+
+.form-btn {
+  cursor: pointer;
+  display: block;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  background-color: #4e75ff;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: #fff;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+  margin-bottom: 32px;
+}
+
+/* Load more button */
+.load-more {
+  cursor: pointer;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  background-color: #4e75ff;
+  color: #fff;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+/* loader */
+.loader {
+  display: block;
+  margin: 0;
+  width: 64px;
+  height: 48px;
+  position: relative;
+  animation: split 1s ease-in infinite alternate;
+}
+
+.loader::before,
+.loader::after {
+  content: '';
+  position: absolute;
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  left: 0;
+  top: 0;
+  transform: translateX(-10px);
+  background: #ff3d00;
+  opacity: 0.75;
+  backdrop-filter: blur(20px);
+}
+
+.loader::after {
+  left: auto;
+  right: 0;
+  background: #fff;
+  transform: translateX(10px);
+}
+
+@keyframes split {
+
+  0%,
+  25% {
+    width: 64px;
+  }
+
+  100% {
+    width: 148px;
+  }
+}
+
+.is-hidden {
+  display: none;
+}
+
+.gallery {
+  max-width: 1128px;
+  gap: 24px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 0;
+  list-style: none;
+}
+
+.gallery-item {
+  border: 1px solid #808080;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.gallery-link {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+}
+
+.gallery-link img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.gallery-descr {
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 8px 12px;
+  gap: 8px;
+  background: #fafafa;
+}
+
+.gallery-descr-title {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.33333;
+  letter-spacing: 0.04em;
+  color: #2e2f42;
+  text-align: center;
+}
+
+.gallery-descr-value {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 2;
+  letter-spacing: 0.04em;
+  color: #2e2f42;
+  text-align: center;
+}
+
+/* SimpleLightbox overrides */
+.sl-wrapper {
+  background-color: rgba(46, 47, 66, 0.8);
+}
+
+body .sl-wrapper .sl-counter {
+  color: #fff;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+body .sl-wrapper .sl-close {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  color: #fff;
+}
+
+body .sl-wrapper .sl-navigation button {
+  width: 24px;
+  height: 24px;
+  color: #fff;
+}
