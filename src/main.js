@@ -26,9 +26,6 @@ loadMoreBtnRef.addEventListener('click', onLoadMore);
 function notifyInfo(message) {
     iziToast.info({ title: '', message, position: 'topRight' });
 }
-function notifySuccess(message) {
-    iziToast.success({ title: '', message, position: 'topRight' });
-}
 function notifyError(message) {
     iziToast.error({ title: 'Error', message, position: 'topRight' });
 }
@@ -36,74 +33,68 @@ function notifyError(message) {
 async function onSearch(e) {
     e.preventDefault();
     const query = input.value.trim();
+
     if (!query) {
         notifyInfo('Please enter a search query.');
         return;
     }
 
+    currentQuery = query;
+    page = 1;
+    totalHits = 0;
 
-    if (query !== currentQuery) {
-        currentQuery = query;
-        page = 1;
-        totalHits = 0;
-        clearGallery();
-        hideLoadMoreButton();
-    }
+    clearGallery();
+    hideLoadMoreButton();
 
-    await fetchAndRender();
+    await fetchAndRender(false);
+
     form.reset();
 }
 
 async function onLoadMore() {
-    await fetchAndRender();
+    page += 1;
+    await fetchAndRender(true);
 }
 
-async function fetchAndRender() {
+async function fetchAndRender(isLoadMore) {
     try {
         showLoader();
 
         const data = await getImagesByQuery(currentQuery, page);
+
         if (!data || !Array.isArray(data.hits)) {
-            notifyError('Немає відповіді від сервера.');
+            notifyError('No server response.');
             return;
         }
 
         const { hits, totalHits: total } = data;
 
-
         if (page === 1 && hits.length === 0) {
             hideLoadMoreButton();
-            notifyInfo(
-                'Sorry, there are no images matching your search query. Please try again!'
-            );
+            notifyInfo('Sorry, there are no images matching your search query. Please try again!');
             return;
         }
 
-
-        createGallery(hits);
-
+        if (hits.length > 0) {
+            createGallery(hits);
+        }
 
         totalHits = total;
 
+        const shown = galleryRef.querySelectorAll('.gallery-item').length;
 
-        const imagesAlreadyShown = (page - 1) * PER_PAGE + hits.length;
-
-        if (imagesAlreadyShown < totalHits) {
+        if (shown < totalHits) {
             showLoadMoreButton();
         } else {
             hideLoadMoreButton();
             notifyInfo("We're sorry, but you've reached the end of search results.");
         }
 
-
-        if (page > 1) {
+        if (isLoadMore && hits.length > 0) {
             smoothScrollAfterLoad();
         }
-
-        page += 1;
     } catch (error) {
         notifyError('Something went wrong. Please try again later.');
-        console.error(error);
     } finally {
         hideLoader();
     }
